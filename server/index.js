@@ -1,23 +1,49 @@
-const server = require('express')()
+const App = require('express')()
+
 const cors = require('cors')
-
-const ip = 'localhost'
-
-let users = [];
-
 const defaultCorsOptions = {
   origin: '*',
   methods: ['PUT','POST','GET','OPTIONS'],
   allowedHeaders:['Content-Type', 'Authorization'],
-  maxAge: 1000
+  maxAge: 10000
 }
+const ip = 'localhost'
+App.use('/', cors(defaultCorsOptions))
 
-const socket = require('socket.io')(server, cors(defaultCorsOptions))
+const server = App.listen(8080, ip, () => {
+  console.log('on Server')
+})
+
+
+/*
+  user = {
+    id:
+    name:
+    position:{
+      x:
+      y:
+    }
+    closeObj:
+  }
+  chatList = {
+    id:
+    name:
+    message:
+  }
+ 
+ */
+let users = [];
+let chatList = [];
+
+const socket = require('socket.io')(server, {
+  cors: defaultCorsOptions
+})
 
 socket.on('connection', (client) => {
 
   client.on('message', (message) => { // 메시지
-    socket.emit('message', message)
+    chatList.push(message)
+    socket.emit('messages', chatList)
   })
 
   client.on('login', (user) => { // 로그인
@@ -35,10 +61,4 @@ socket.on('connection', (client) => {
     ]
     socket.emit('checkUser', users)
   })
-})
-
-server.use('/', cors(defaultCorsOptions))
-
-server.listen(433, ip,  () => {
-  console.log('on Server')
 })
