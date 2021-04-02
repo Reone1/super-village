@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ChatInput from './ChatInput';
 import ChatItem from './ChatItem';
 import Resizeable from './Resizeable';
@@ -8,16 +8,16 @@ const ChatBox = ({ user, onGetMessage }) => {
     { id: 1, username: null, message: '채팅에 참여 하였습니다.' },
   ]);
 
-  const handleGetMessage = e => {
+  const handleGetMessage = message => {
     setChatlist(list => {
-      if (e) {
-        onGetMessage(e);
+      if (message) {
+        onGetMessage(message);
         return [
           ...list,
           {
             id: list[list.length - 1].id + 1,
             username: user.username,
-            message: e,
+            message: message,
           },
         ];
       } else {
@@ -29,7 +29,6 @@ const ChatBox = ({ user, onGetMessage }) => {
   const [isStartChat, setIsStartChat] = useState(false);
 
   const handleKeyDown = e => {
-    // console.log(e.isComposing);
     if (!e.isComposing && e.code === 'Enter') {
       setIsStartChat(state => !state);
     }

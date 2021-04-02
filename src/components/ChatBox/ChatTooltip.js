@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 
 const Div = styled.div`
@@ -8,6 +8,7 @@ const Div = styled.div`
 
 export default function ChatTooltip({ user }) {
   const [isVisible, setIsVisible] = useState({ state: false, timeOutID: null });
+
   useEffect(() => {
     setIsVisible(state => {
       if (state.timeOutID) {
@@ -17,7 +18,6 @@ export default function ChatTooltip({ user }) {
         ...state,
         state: true,
         timeOutID: setTimeout(() => {
-          console.log('call timeout');
           setIsVisible({
             state: false,
             timeOutID: null,
@@ -26,15 +26,25 @@ export default function ChatTooltip({ user }) {
       };
     });
   }, [user.message]);
+
+  const [height, setHeight] = useState(0);
+
+  const measuredRef = useCallback(node => {
+    if (node !== null) {
+      setHeight(node.getBoundingClientRect().height);
+    }
+  }, []);
+
   if (!isVisible.state) return '';
   return (
     <Div
+      ref={measuredRef}
       className="chatTooltip"
       x={user.position.x - 60 + 'px'}
-      y={user.position.y - 70 + 'px'}
+      y={user.position.y - height + 'px'}
     >
       <div className="chatTooltipText">{user.message}</div>
-      <Div className="triangleToolTip" x={70 + 'px'} y={45.5 + 'px'} />
+      <Div className="triangleToolTip" x={70 + 'px'} y={height + 'px'} />
     </Div>
   );
 }
