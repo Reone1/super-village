@@ -68,7 +68,7 @@ $ npm i
 ```sh
 $ npm run start OR yarn start
 ```
-
+`localhost:3000`
 
 # Developing
 ## Built With

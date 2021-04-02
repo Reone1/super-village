@@ -4,7 +4,7 @@ import ChatItem from './ChatItem'
 import Resizeable from './Resizeable'
 
 const ChatBox = ({ user, onGetMessage}) => {
-  const [ chatList, setChatlist] = useState([{id :1, username: null, message : "채팅에 참여 하였습니다."}]);
+  const [chatList, setChatlist] = useState([{id :1, username: null, message : "채팅에 참여 하였습니다."}]);
   
   const handleGetMessage = (e) =>  {
     setChatlist((list) => {

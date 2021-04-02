@@ -26,6 +26,7 @@ export default function ChatTooltip({user}) {
       })
     });
   },[user.message])
+  
   if (!isVisible.state) return ''
   return (
     <Div className="chatTooltip" x={user.position.x - 60 + 'px'} y={user.position.y - 70 + 'px'}>

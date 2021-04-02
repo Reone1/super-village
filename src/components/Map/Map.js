@@ -186,7 +186,10 @@ const Map = () => {
       handleUserConnect(Object.values(users), users[myUserId.current]);
     }
   };
- 
+  const socket = io("http://localhost:8080")
+  socket.on('connect', () => {
+    console.log('connect')
+  })
   /*
    * chatBox Logics
    */
