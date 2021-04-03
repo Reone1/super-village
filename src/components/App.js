@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import Map from './Map/Map'
 import Simplash from './Simplash/Main'
 import Todolist from './TodoList/ToDoListApp'
+import Modal from './Modal/index'
 
 const renderComponents = [{
   name : 'Map',
@@ -15,7 +16,11 @@ const renderComponents = [{
 {
   name : 'todolist',
   component : <Todolist/>
-}]
+},{
+  name:"Modal",
+  component: <Modal/>
+}
+]
 
 const App = () => {
   const [current, setCurrent] = useState(0)
