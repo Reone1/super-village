@@ -186,10 +186,12 @@ const Map = () => {
       handleUserConnect(Object.values(users), users[myUserId.current]);
     }
   };
+  /* FE-socket
   const socket = io("http://localhost:8080")
   socket.on('connect', () => {
     console.log('connect')
-  })
+  }) 
+  */
   /*
    * chatBox Logics
    */

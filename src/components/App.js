@@ -18,7 +18,7 @@ const renderComponents = [{
   component : <Todolist/>
 },{
   name:"Modal",
-  component: <Modal/>
+  component: <Modal position={{x:'20px' ,y:'20px'}} component={<Todolist/>}/>
 }
 ]
 
