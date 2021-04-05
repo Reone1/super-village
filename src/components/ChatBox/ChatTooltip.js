@@ -1,37 +1,50 @@
-import React, { useState, useEffect } from 'react'
-import styled from "styled-components"
+import React, { useState, useEffect, useCallback } from 'react';
+import styled from 'styled-components';
 
 const Div = styled.div`
   left: ${props => props.x};
   top: ${props => props.y};
 `;
 
-export default function ChatTooltip({user}) {
-  const [isVisible, setIsVisible] = useState({state:false, timeOutID: null});
-  useEffect(()=>{
-    setIsVisible((state) => {
-      if(state.timeOutID) {
+export default function ChatTooltip({ user }) {
+  const [isVisible, setIsVisible] = useState({ state: false, timeOutID: null });
+
+  useEffect(() => {
+    setIsVisible(state => {
+      if (state.timeOutID) {
         clearTimeout(state.timeOutID);
       }
-      return ({
+      return {
         ...state,
         state: true,
-        timeOutID : setTimeout(() => {
-          console.log('call timeout')
+        timeOutID: setTimeout(() => {
           setIsVisible({
-            state :false,
+            state: false,
             timeOutID: null,
-          })
-        }, 3000)
-      })
+          });
+        }, 3000),
+      };
     });
-  },[user.message])
-  
-  if (!isVisible.state) return ''
+  }, [user.message]);
+
+  const [height, setHeight] = useState(0);
+
+  const measuredRef = useCallback(node => {
+    if (node !== null) {
+      setHeight(node.getBoundingClientRect().height);
+    }
+  }, []);
+
+  if (!isVisible.state) return '';
   return (
-    <Div className="chatTooltip" x={user.position.x - 60 + 'px'} y={user.position.y - 70 + 'px'}>
+    <Div
+      ref={measuredRef}
+      className="chatTooltip"
+      x={user.position.x - 60 + 'px'}
+      y={user.position.y - height + 'px'}
+    >
       <div className="chatTooltipText">{user.message}</div>
-      <Div className="triangleToolTip" x={70 + 'px'} y={ 45+ 'px'} />
+      <Div className="triangleToolTip" x={70 + 'px'} y={height + 'px'} />
     </Div>
-  )
+  );
 }

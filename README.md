@@ -49,6 +49,7 @@ First team project by unionX
   - `update`: 기능 업데이트
   - `bugfix`: 오류 수정
   - `deploy`: 배포
+  - `simplify`: 코드 단순화
 
   ... 이런식으로 **맘에드는 header**가 있으면 추가 해주세요!
 
